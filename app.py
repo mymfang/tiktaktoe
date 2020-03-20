@@ -21,3 +21,8 @@ def index():
 @app.route("/play/<int:row>/<int:col>")
 def play(row, col):
     return redirect(url_for("index"))
+
+
+@app.route("/javascript")
+def js():
+    return render_template("hello.html")
