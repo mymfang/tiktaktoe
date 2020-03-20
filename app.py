@@ -11,7 +11,6 @@ Session(app)
 
 @app.route("/")
 def index():
-
     if "board" not in session:
         session['board'] = [[None, None, None], [None, None, None], [None, None, None]]
         session["turn"] = "X"
@@ -23,6 +22,6 @@ def play(row, col):
     return redirect(url_for("index"))
 
 
-@app.route("/javascript")
+@app.route("/js")
 def js():
-    return render_template("hello.html")
+    return render_template("js.html")
