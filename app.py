@@ -29,3 +29,15 @@ def button():
 @app.route("/quiz")
 def quiz():
     return render_template("quiz.html")
+
+@app.route("/exchange")
+def exchange():
+    return render_template("exchange.html")
+
+@app.route("/react")
+def react():
+    return render_template("react.html")
+
+@app.route("/addition")
+def addition():
+    return render_template("addition.html")
