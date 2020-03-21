@@ -22,6 +22,10 @@ def play(row, col):
     return redirect(url_for("index"))
 
 
-@app.route("/js")
-def js():
-    return render_template("js.html")
+@app.route("/button")
+def button():
+    return render_template("button.html")
+
+@app.route("/quiz")
+def quiz():
+    return render_template("quiz.html")
