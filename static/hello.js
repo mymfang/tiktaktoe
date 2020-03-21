@@ -1,9 +1,8 @@
-/*
 document.addEventListener("DOMContentLoaded", function()
 {
-    document.querySelector("button").onclick = count;
+    document.querySelector("#countBtn").onclick = count;
 });
-*/
+
 
 let x = 20;
 alert(x);
