@@ -9,19 +9,101 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+BOARD_SIZE = 3
+
 @app.route("/")
 def index():
+    return "404"
+
+# game tictactoe
+@app.route("/tiktactoe")
+def tiktactoe():
+
+
     if "board" not in session:
-        session['board'] = [[None, None, None], [None, None, None], [None, None, None]]
+
+        #多维数组创建,方法1
+        '''
+        list1 = []
+        list2 = []
+        for i in range(BOARD_SIZE):
+            list1.append(None)
+        for j in range(BOARD_SIZE):
+            list2.append(list1)
+        session["board"] = list2
+        '''
+        #方法2
+        session["board"] = [[None]*BOARD_SIZE for _ in range(BOARD_SIZE)]
         session["turn"] = "X"
     
-    return render_template("game.html", game=session["board"], turn=session["turn"])
+    return render_template("tiktactoe.html", game=session["board"], turn=session["turn"], size=BOARD_SIZE)
 
 @app.route("/play/<int:row>/<int:col>")
-def play(row, col):
-    return redirect(url_for("index"))
+def player(row, col):
+    if session["turn"] == "X":
+        session["board"][row][col] = "X"
+        session["turn"] = "O"
+    else:
+        session["board"][row][col] = "O"
+        session["turn"] = "X"
+
+    pointer = 0
+    #scores_X = [Xrow1,Xrow2,Xrow3,Xcol1,Xcol2,Xcol3,Xtilt1,Xtilt2]
+    scores_X = [0,0,0,0,0,0,0,0]
+    scores_O = [0,0,0,0,0,0,0,0]
+
+    for i in session["board"]:
+        for j in range(3):
+            if i[j] == "X":
+                # 更新row数据
+                scores_X[pointer] += 1
+                # 更新col数据
+                scores_X[j+3] += 1
+                # 更新tilt1数据
+                if (pointer+1) / (j+1) == 1:
+                    scores_X[6] += 1
+                # 更新另一个斜面的数据
+                if pointer == 2 and j == 0:
+                    scores_X[7] += 1
+                if pointer == 1 and j == 1:
+                    scores_X[7] += 1
+                if pointer == 0 and j == 2:
+                    scores_X[7] += 1
+            elif i[j] == "O":
+                scores_O[pointer] += 1
+                scores_O[j+3] += 1
+                # tilt1
+                if ((pointer+1) / (j+1)) == 1:
+                    scores_O[6] += 1
+                # tilt2
+                if pointer == 2 and j == 0:
+                    scores_O[7] += 1
+                if pointer == 1 and j == 1:
+                    scores_O[7] += 1
+                if pointer == 0 and j == 2:
+                    scores_O[7] += 1
+            else:
+                continue
+        pointer += 1
+        print("X", scores_X)
+        print("O", scores_O)
+
+        if max(scores_X) == 3:
+            return render_template("tiktactoe.html", winner="X", size=BOARD_SIZE, game=session["board"], turn=session["turn"])
+        elif max(scores_O) == 3:
+            return render_template("tiktactoe.html", winner="O", size=BOARD_SIZE, game=session["board"], turn=session["turn"])
+    
+    return redirect(url_for("tiktactoe"))
+
+@app.route("/play/reset")
+def new_game():
+    session["board"] = [[None]*BOARD_SIZE for _ in range(BOARD_SIZE)]
+    session["turn"] = "X"
+    return redirect(url_for("tiktactoe"))
 
 
+
+# button
 @app.route("/button")
 def button():
     return render_template("button.html")
