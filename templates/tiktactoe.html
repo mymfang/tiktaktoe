@@ -37,10 +37,10 @@
         <div id="gameboard">
             <table>
                 {% for i in range(size) %}
-                    <tr>
+                    <tr><!-- tr 意思是one table row-->
                         {% for j in range(size) %}
-                            <td>
-                                {% if game[i][j] %}
+                            <td> <!-- td 意思是one standard ceil-->
+                                {% if game[i][j] %} <!-- if game[i][j] exits-->
                                     {{ game[i][j] }}
                                 {% else %}
                                     <a href="{{ url_for('player', row=i, col=j) }}">Play {{ turn }} here.</a>

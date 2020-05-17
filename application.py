@@ -11,11 +11,12 @@ Session(app)
 
 BOARD_SIZE = 3
 
+# ****** index
 @app.route("/")
 def index():
     return "404"
 
-# game tictactoe
+# ****** game tiktactoe
 @app.route("/tiktactoe")
 def tiktactoe():
 
@@ -48,7 +49,8 @@ def player(row, col):
         session["turn"] = "X"
 
     pointer = 0
-    #scores_X = [Xrow1,Xrow2,Xrow3,Xcol1,Xcol2,Xcol3,Xtilt1,Xtilt2]
+    #counter = 0
+    #scores_X = [r0,r1,r2,c0,c1,c2,t0,t1]
     scores_X = [0,0,0,0,0,0,0,0]
     scores_O = [0,0,0,0,0,0,0,0]
 
@@ -85,13 +87,11 @@ def player(row, col):
             else:
                 continue
         pointer += 1
-        print("X", scores_X)
-        print("O", scores_O)
 
         if max(scores_X) == 3:
-            return render_template("tiktactoe.html", winner="X", size=BOARD_SIZE, game=session["board"], turn=session["turn"])
+            return render_template("tiktactoe_result.html", winner="X")
         elif max(scores_O) == 3:
-            return render_template("tiktactoe.html", winner="O", size=BOARD_SIZE, game=session["board"], turn=session["turn"])
+            return render_template("tiktactoe_result.html", winner="O")
     
     return redirect(url_for("tiktactoe"))
 
@@ -103,23 +103,26 @@ def new_game():
 
 
 
-# button
+# ****** button
 @app.route("/button")
 def button():
     return render_template("button.html")
 
+# ****** quiz
 @app.route("/quiz")
 def quiz():
     return render_template("quiz.html")
-
+# ****** exchange
 @app.route("/exchange")
 def exchange():
     return render_template("exchange.html")
 
+# ****** react
 @app.route("/react")
 def react():
     return render_template("react.html")
 
+# ****** addition
 @app.route("/addition")
 def addition():
     return render_template("addition.html")
