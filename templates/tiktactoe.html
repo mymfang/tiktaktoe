@@ -52,7 +52,9 @@
             </table>
             <div>
                 <h1>status</h1>
-                <button id="btn">Winner is {{ turn }}</button>
+                <button id="btn">Winner is {{ winner }}</button>
+                <button>history</button>
+                <button>help me with next move</button>
                 <a href="{{ url_for('new_game') }}">
                     <button id="btn">Reset</button>
                 </a>
